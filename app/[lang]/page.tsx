@@ -1,8 +1,7 @@
 import Link from "next/link";
 import { getDictionary } from "../../get-dictionary";
 import { Locale } from "../../i18n-config";
-import Counter from "./components/counter";
-import LocaleSwitcher from "./components/locale-switcher";
+import Counter from "../components/counter";
 
 export default async function IndexPage({
   params: { lang },
@@ -11,37 +10,32 @@ export default async function IndexPage({
 }>) {
   const dictionary = await getDictionary(lang);
 
-  const locale = lang === "en" ? "" : `/${lang}`;
-
   return (
     <div>
-      <LocaleSwitcher />
-      <p>Current locale: {lang}</p>
+      <h1>You are at `/` route</h1>
       <p>
         This text is rendered on the server:{" "}
         {dictionary["server-component"].welcome}
       </p>
-      <Counter dictionary={dictionary.counter} />
 
       <p>
-        <b>Scenario 1 </b>select language which not default `en` when u click on
-        Test page with not default locale which is `en` all works as expected
-        you see modal page which intercepted from (.)test
+        This is top level of page `/` where try to intercept
+        `/domain1/test/[id]`
       </p>
       <p>
-        <b>Scenario 2</b> select default `en` language and click on Test page
-        first time u see modal test page. But when u click back and try to click
-        again nothing happen, and at consol u can see error{" "}
-        <span style={{ color: "red" }}>`Uncaught Error: SEGMENT MISMATCH`</span>
+        <Link href={`/${lang}/domain1/test/1`}>
+          Open test 1 page domain1/test/1
+        </Link>
       </p>
       <p>
-        <Link href={`/${lang}/test/1`}>Test page 1</Link>
+        <Link href={`/${lang}/domain1/test/2`}>
+          Open test 2 page domain1/test/2
+        </Link>
       </p>
       <p>
-        <Link href={`/${lang}/test/2`}>Test page 2</Link>
-      </p>
-      <p>
-        <Link href={`/${lang}/test/3`}>Test page 3</Link>
+        <Link href={`/${lang}/domain1/test/3`}>
+          Open test 3 page domain1/test/3
+        </Link>
       </p>
     </div>
   );
